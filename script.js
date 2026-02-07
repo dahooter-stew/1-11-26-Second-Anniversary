@@ -38,14 +38,14 @@ window.addEventListener('resize', resize)
 function compile(type, source)
 {
 	const shader = gl.createShader(type);
- 	gl.shaderSource(shader, source);
-  	gl.compileShader(shader);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
 
-  	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    	console.error(gl.getShaderInfoLog(shader));
-  	}
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(shader));
+  }
 
-  	return shader;
+  return shader;
 }
 
 function hearts_to_center()
@@ -76,6 +76,14 @@ function init_hearts(hearts, amount)
 	}
 }
 
+function notify()
+{
+  fetch('https://ntfy.sh/NqNPMlT5IwJZLeYF', {
+    method: 'POST',
+    body: 'maria poke >.<',
+  })
+}
+
 function init()
 {
 	RUN = true;
@@ -103,6 +111,7 @@ function init()
 			gl_Position = vec4(position, 0.0, 1.0);
 		}
 	`;
+
 	const fragment_source = `
     precision highp float;
 
@@ -169,8 +178,11 @@ function init()
 	  gl.ARRAY_BUFFER,
 	  new Float32Array([
 	    -1, -1,
-	     3, -1,
-	    -1,  3
+	    -1, 1,
+	    1,  1,
+      -1, -1,
+      1, 1,
+      1, -1,
 	  ]),
 	  gl.STATIC_DRAW
 	);
@@ -187,35 +199,36 @@ function update(dt)
   for (let i = 0; i < hearts.length; i++) {
     const heart = hearts[i];
 
-    // Update position
     heart.x += heart.dx * dt;
     heart.y += heart.dy * dt;
     heart.angle += dt;
 
-    // Calculate edges
     const left = heart.x - heart.size;
     const right = heart.x + heart.size;
     const top = heart.y - heart.size;
     const bottom = heart.y + heart.size;
 
-    // Bounce off walls
-    if (left < 0) {
-        heart.x = heart.size; // prevent sticking into wall
-        heart.dx *= -1;
-    } else if (right > WIDTH) {
-        heart.x = WIDTH - heart.size;
-        heart.dx *= -1;
+    if (left < 0) 
+    {
+      heart.x = heart.size; 
+      heart.dx *= -1;
+    } 
+    else if (right > WIDTH) 
+    {
+      heart.x = WIDTH - heart.size;
+      heart.dx *= -1;
     }
-
-    if (top < 0) {
-        heart.y = heart.size;
-        heart.dy *= -1;
-    } else if (bottom > HEIGHT) {
-        heart.y = HEIGHT - heart.size;
-        heart.dy *= -1;
+    if (top < 0) 
+    {
+      heart.y = heart.size;
+      heart.dy *= -1;
+    } 
+    else if (bottom > HEIGHT) 
+    {
+      heart.y = HEIGHT - heart.size;
+      heart.dy *= -1;
     }
-}
-
+  }
 }
 
 function render(dt)
@@ -230,7 +243,7 @@ function render(dt)
 
   	gl.uniform4fv(heartsLoc, heartData);
 
-  	gl.drawArrays(gl.TRIANGLES, 0, 3);
+  	gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
 function tick()
@@ -243,12 +256,5 @@ function tick()
 	requestAnimationFrame(tick);
 }
 
-function notify()
-{
-  fetch('https://ntfy.sh/NqNPMlT5IwJZLeYF', {
-    method: 'POST', // PUT works too
-    body: 'maria poke >.<',
-  })
-}
 
 init()

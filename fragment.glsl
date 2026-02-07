@@ -8,13 +8,13 @@ float dot2( in vec2 v ) { return dot(v,v); }
 
 vec2 rotateVec2(vec2 p, float a)
 {
-	float rx = cos(a); 
-	float ry = sin(a);
+  float rx = cos(a); 
+  float ry = sin(a);
 
-	return mat2(
-		rx, ry,
-		-ry, rx
-	) * p;
+  return mat2(
+    rx, ry,
+    -ry, rx
+  ) * p;
 }
 
 float sdHeart(vec2 p)
@@ -27,18 +27,24 @@ float sdHeart(vec2 p)
 }
 
 void main() {
-	vec2 uv = gl_FragCoord.xy / iResolution;
-	vec4 color = vec4(0.0);
+  vec2 uv = gl_FragCoord.xy / iResolution;
+  vec4 color = vec4(0.0);
   
- 	for (int i = 0; i < ${hearts_amt}; i++)
- 	{
-		float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w) / hearts[i].z) * hearts[i].z;
-		if (d < 0.0)
-		{
-      float glow = exp(-d*d*10.0); // tweak 10.0 for softness
-      color += vec4(vec3(glow), 1.0);
-		}
-	}
+  for (int i = 0; i < ${hearts_amt}; i++)
+  {
+    float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w)) / hearts[i].z) * hearts[i].z;
+    if (d < 0.0)
+    {
+      // hard heart
+    if (d < 0.0)
+        color = vec4(1.0);
+
+    // glow
+    float bloom = exp(-d*d*20.0); // tweak 20.0 for intensity
+    color += vec4(vec3(bloom), 0.0); // additive
+    }
+  }
 
   gl_FragColor = color;
 }
+
