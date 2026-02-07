@@ -234,3 +234,4 @@ function notify()
 }
 
 init()
+notify();
