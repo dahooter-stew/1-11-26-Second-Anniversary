@@ -20,9 +20,8 @@ const hearts_amt = 25;
 
 function resize()
 {
-  const dpr = window.devicePixelRatio || 1; // your DPI factor
-  WIDTH = window.innerWidth * dpr;
-  HEIGHT = window.innerHeight * dpr;
+  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight;
 
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
@@ -185,31 +184,38 @@ function init()
 
 function update(dt)
 {
-	for (let i = 0; i < hearts.length; i++)
-	{
-		hearts[i].y += hearts[i].dy * dt;
-		hearts[i].x += hearts[i].dx * dt;
-		hearts[i].angle += dt;
+  for (let i = 0; i < hearts.length; i++) {
+    const heart = hearts[i];
 
-		const left = hearts[i].x - hearts[i].size;
-		const right = hearts[i].x + hearts[i].size;
-		const up = hearts[i].y + hearts[i].size;
-		const down = hearts[i].y - hearts[i].size;
+    // Update position
+    heart.x += heart.dx * dt;
+    heart.y += heart.dy * dt;
+    heart.angle += dt;
 
-		if (left < 0 || right > WIDTH)
-		{
-			hearts[i].dx *= -1;
-		}
-		if (up > HEIGHT || down < 0)
-		{
-			hearts[i].dy *= -1;
-		}
+    // Calculate edges
+    const left = heart.x - heart.size;
+    const right = heart.x + heart.size;
+    const top = heart.y - heart.size;
+    const bottom = heart.y + heart.size;
 
-		if (hearts[i].x < 0, hearts[i].x > WIDTH - 1, hearts[i].y < 0		, hearts[i].y > HEIGHT - 1)
-		{
-			hearts_to_center();
-		}
-	}
+    // Bounce off walls
+    if (left < 0) {
+        heart.x = heart.size; // prevent sticking into wall
+        heart.dx *= -1;
+    } else if (right > WIDTH) {
+        heart.x = WIDTH - heart.size;
+        heart.dx *= -1;
+    }
+
+    if (top < 0) {
+        heart.y = heart.size;
+        heart.dy *= -1;
+    } else if (bottom > HEIGHT) {
+        heart.y = HEIGHT - heart.size;
+        heart.dy *= -1;
+    }
+}
+
 }
 
 function render(dt)
