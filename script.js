@@ -20,13 +20,18 @@ const hearts_amt = 25;
 
 function resize()
 {
-	HEIGHT = window.innerHeight;
-	WIDTH = window.innerWidth;
-	canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-	gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+  const dpr = window.devicePixelRatio || 1; // your DPI factor
+    WIDTH = window.innerWidth * dpr;
+    HEIGHT = window.innerHeight * dpr;
 
-	hearts_to_center();
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+
+    gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+
+    hearts_to_center();
 }
 
 window.addEventListener('resize', resize)
