@@ -16,7 +16,7 @@ let HEIGHT;
 let timer;
 
 const hearts = [];
-const hearts_amt = 25;
+const hearts_amt = 15;
 
 function resize()
 {
@@ -145,18 +145,22 @@ function init()
       vec2 uv = gl_FragCoord.xy / iResolution;
       vec4 color = vec4(1.0, 0.7725, 0.8274, 1.0);
       
+      float k = 0.075;
+      float total = 0.0;
+
       for (int i = 0; i < ${hearts_amt}; i++)
       {
         float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w)) / hearts[i].z) * hearts[i].z;
-          // hard heart
-        if (d < 0.0)
-            color = vec4(1.0);
 
-        // glow
-        float bloom = exp(-abs(d)*0.1); // tweak 20.0 for intensity
-        color += vec4(vec3(bloom), 1.0); // additive
+        total += exp(-d * k);
+
       }
 
+      float val = -log(total) / k;
+      if (val <= 0.0)
+        color = vec4(1.0);
+      float bloom = exp(-abs(val)*0.1); // tweak 20.0 for intensity
+      color += vec4(vec3(bloom), 1.0); // additive
       gl_FragColor = color;
     }
 	`;
@@ -196,6 +200,33 @@ function init()
 
 function update(dt)
 {
+  for (let i = 0; i < hearts.length; i++)
+  {
+    const heart = hearts[i];
+
+    for (let j = 0; j < hearts.length; j++)
+    {
+      if (i == j)
+      {
+        continue;
+      }
+
+      const other_heart = hearts[j];
+
+      const dx = other_heart.x - heart.x;
+      const dy = other_heart.y - heart.y;
+      const d = (dx * dx + dy * dy);
+
+      const f = 10.0 * (heart.size * other_heart.size) / d;
+      const d2 = Math.sqrt(d);
+      const fx = dx / d2 * f;
+      const fy = dy / d2 * f;
+
+      heart.dx += fx * dt;
+      heart.dy += fy * dt;
+    }
+  }
+
   for (let i = 0; i < hearts.length; i++) {
     const heart = hearts[i];
 
@@ -242,7 +273,6 @@ function render(dt)
   	}
 
   	gl.uniform4fv(heartsLoc, heartData);
-
   	gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
