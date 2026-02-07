@@ -35,7 +35,10 @@ void main() {
 		float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w) / hearts[i].z) * hearts[i].z;
 		if (d < 0.0)
 		{
-			gl_FragColor = vec4(1.0);
+      float glow = exp(-d*d*10.0); // tweak 10.0 for softness
+      color += vec4(vec3(glow), 1.0);
 		}
 	}
+
+  gl_FragColor = color;
 }

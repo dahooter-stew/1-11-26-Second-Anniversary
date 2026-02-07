@@ -21,17 +21,17 @@ const hearts_amt = 25;
 function resize()
 {
   const dpr = window.devicePixelRatio || 1; // your DPI factor
-    WIDTH = window.innerWidth * dpr;
-    HEIGHT = window.innerHeight * dpr;
+  WIDTH = window.innerWidth * dpr;
+  HEIGHT = window.innerHeight * dpr;
 
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
 
-    gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+  gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
-    hearts_to_center();
+  hearts_to_center();
 }
 
 window.addEventListener('resize', resize)
@@ -105,47 +105,52 @@ function init()
 		}
 	`;
 	const fragment_source = `
-		precision highp float;
+    precision highp float;
 
-		uniform vec2 iResolution;
-		uniform float iTime;
-		uniform vec4 hearts[${hearts_amt}];
+    uniform vec2 iResolution;
+    uniform float iTime;
+    uniform vec4 hearts[${hearts_amt}];
 
-		float dot2( in vec2 v ) { return dot(v,v); }
+    float dot2( in vec2 v ) { return dot(v,v); }
 
-		vec2 rotateVec2(vec2 p, float a)
-		{
-			float rx = cos(a); 
-			float ry = sin(a);
+    vec2 rotateVec2(vec2 p, float a)
+    {
+      float rx = cos(a); 
+      float ry = sin(a);
 
-			return mat2(
-				rx, ry,
-				-ry, rx
-			) * p;
-		}
+      return mat2(
+        rx, ry,
+        -ry, rx
+      ) * p;
+    }
 
-		float sdHeart(vec2 p)
-		{
-		    p.x = abs(p.x);
+    float sdHeart(vec2 p)
+    {
+        p.x = abs(p.x);
 
-		    if( p.y+p.x>1.0 ) return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
-		        
-		    return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0)))) * sign(p.x-p.y);
-		}
+        if( p.y+p.x>1.0 ) return sqrt(dot2(p-vec2(0.25,0.75))) - sqrt(2.0)/4.0;
+            
+        return sqrt(min(dot2(p-vec2(0.00,1.00)), dot2(p-0.5*max(p.x+p.y,0.0)))) * sign(p.x-p.y);
+    }
 
-		void main() {
-			vec2 uv = gl_FragCoord.xy / iResolution;
-			vec4 color = vec4(0.0);
-		  
-		 	for (int i = 0; i < ${hearts_amt}; i++)
-		 	{
-				float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w)) / hearts[i].z) * hearts[i].z;
-				if (d < 0.0)
-				{
-					gl_FragColor = vec4(1.0);
-				}
-			}
-		}
+    void main() {
+      vec2 uv = gl_FragCoord.xy / iResolution;
+      vec4 color = vec4(1.0, 0.7725, 0.8274, 1.0);
+      
+      for (int i = 0; i < ${hearts_amt}; i++)
+      {
+        float d = sdHeart((rotateVec2(gl_FragCoord.xy - hearts[i].xy, hearts[i].w)) / hearts[i].z) * hearts[i].z;
+          // hard heart
+        if (d < 0.0)
+            color = vec4(1.0);
+
+        // glow
+        float bloom = exp(-abs(d)*0.1); // tweak 20.0 for intensity
+        color += vec4(vec3(bloom), 1.0); // additive
+      }
+
+      gl_FragColor = color;
+    }
 	`;
 
 	program = gl.createProgram();
@@ -187,15 +192,15 @@ function update(dt)
 		hearts[i].angle += dt;
 
 		const left = hearts[i].x - hearts[i].size;
-		const right = WIDTH - hearts[i].x - hearts[i].size;
-		const up = hearts[i].y - hearts[i].size;
-		const down = HEIGHT - hearts[i].y - hearts[i].size;
+		const right = hearts[i].x + hearts[i].size;
+		const up = hearts[i].y + hearts[i].size;
+		const down = hearts[i].y - hearts[i].size;
 
-		if (left < 0 || right < 0)
+		if (left < 0 || right > WIDTH)
 		{
 			hearts[i].dx *= -1;
 		}
-		if (up < 0 || down < 0)
+		if (up > HEIGHT || down < 0)
 		{
 			hearts[i].dy *= -1;
 		}
@@ -236,7 +241,7 @@ function notify()
 {
   fetch('https://ntfy.sh/NqNPMlT5IwJZLeYF', {
     method: 'POST', // PUT works too
-    body: 'hi',
+    body: 'maria poke >.<',
   })
 }
 
