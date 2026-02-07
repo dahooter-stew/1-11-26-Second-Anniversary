@@ -70,7 +70,7 @@ function init_hearts(hearts, amount)
 				dx: speed * Math.cos(dir),
 				dy: speed * Math.sin(dir),
 				angle: Math.random() * Math.PI * 2.0,
-				size: Math.random() * 85.0 + 15,
+				size: Math.random() * 37.0 + 15,
 			}
 		)
 	}
@@ -182,11 +182,12 @@ function init()
 	  gl.ARRAY_BUFFER,
 	  new Float32Array([
 	    -1, -1,
-	    -1, 1,
-	    1,  1,
+	    -1,  1,
+	     1,  1,
+
       -1, -1,
-      1, 1,
-      1, -1,
+       1,  1,
+       1, -1,
 	  ]),
 	  gl.STATIC_DRAW
 	);
