@@ -76,6 +76,8 @@ function init()
 {
 	RUN = true;
 	resize();
+  document.addEventListener("pointerdown", notify());
+
 
 	init_hearts(hearts, hearts_amt);
 
@@ -234,4 +236,3 @@ function notify()
 }
 
 init()
-notify();
