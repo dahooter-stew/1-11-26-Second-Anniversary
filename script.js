@@ -225,4 +225,12 @@ function tick()
 	requestAnimationFrame(tick);
 }
 
+function notify()
+{
+  fetch('https://ntfy.sh/NqNPMlT5IwJZLeYF', {
+    method: 'POST', // PUT works too
+    body: 'hi',
+  })
+}
+
 init()
