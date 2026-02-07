@@ -145,7 +145,7 @@ function init()
       vec2 uv = gl_FragCoord.xy / iResolution;
       vec4 color = vec4(1.0, 0.7725, 0.8274, 1.0);
       
-      float k = 0.075;
+      float k = 0.040;
       float total = 0.0;
 
       for (int i = 0; i < ${hearts_amt}; i++)
@@ -200,32 +200,6 @@ function init()
 
 function update(dt)
 {
-  for (let i = 0; i < hearts.length; i++)
-  {
-    const heart = hearts[i];
-
-    for (let j = 0; j < hearts.length; j++)
-    {
-      if (i == j)
-      {
-        continue;
-      }
-
-      const other_heart = hearts[j];
-
-      const dx = other_heart.x - heart.x;
-      const dy = other_heart.y - heart.y;
-      const d = (dx * dx + dy * dy);
-
-      const f = 10.0 * (heart.size * other_heart.size) / d;
-      const d2 = Math.sqrt(d);
-      const fx = dx / d2 * f;
-      const fy = dy / d2 * f;
-
-      heart.dx += fx * dt;
-      heart.dy += fy * dt;
-    }
-  }
 
   for (let i = 0; i < hearts.length; i++) {
     const heart = hearts[i];
@@ -260,6 +234,38 @@ function update(dt)
       heart.dy *= -1;
     }
   }
+
+  // for (let i = 0; i < hearts.length; i++)
+  // {
+  //   const heart = hearts[i];
+
+  //   for (let j = 0; j < hearts.length; j++)
+  //   {
+  //     if (i == j)
+  //     {
+  //       continue;
+  //     }
+
+  //     const other_heart = hearts[j];
+
+  //     const dx = other_heart.x - heart.x;
+  //     const dy = other_heart.y - heart.y;
+  //     const d = (dx * dx + dy * dy);
+
+  //     if (d < 15.0)
+  //     {
+  //       continue;
+  //     }
+
+  //     const f = 10.0 * (heart.size * other_heart.size) / d;
+  //     const d2 = Math.sqrt(d);
+  //     const fx = dx / d2 * f;
+  //     const fy = dy / d2 * f;
+
+  //     heart.dx += fx * dt;
+  //     heart.dy += fy * dt;
+  //   }
+  // }
 }
 
 function render(dt)
