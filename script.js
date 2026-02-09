@@ -116,7 +116,6 @@ function init()
     precision highp float;
 
     uniform vec2 iResolution;
-    uniform float iTime;
     uniform vec4 hearts[${hearts_amt}];
 
     float dot2( in vec2 v ) { return dot(v,v); }
@@ -172,7 +171,6 @@ function init()
 	gl.useProgram(program);
 
 	iResolution = gl.getUniformLocation(program, "iResolution");
-	iTime = gl.getUniformLocation(program, "iTime");
 	heartsLoc = gl.getUniformLocation(program, "hearts[0]");
 
 	const buffer = gl.createBuffer();
