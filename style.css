@@ -80,7 +80,7 @@ html, body {
 
 #heart {
   position: absolute;
-  bottom: 1rem;
+  bottom: 2rem;
   left: 1rem;
   font-weight: bold;
   font-size: 3rem;
@@ -214,6 +214,10 @@ html, body {
     width: 95vw;
     max-width: 95vw;
     min-height: auto;
+  }
+
+  img {
+    width: 100%;
   }
 }
 
