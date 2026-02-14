@@ -208,3 +208,12 @@ html, body {
   flex-basis: 70%;
   padding-left: 1rem;
 }
+
+@media (max-width: 768px) {
+  #eletter {
+    width: 95vw;
+    max-width: 95vw;
+    min-height: auto;
+  }
+}
+
