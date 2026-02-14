@@ -18,6 +18,20 @@ let timer;
 const hearts = [];
 const hearts_amt = 15;
 
+const show = document.getElementById("heart");
+const hide = document.getElementById("exit");
+const eletter = document.getElementById("eletter");
+
+show.addEventListener("click", () => {
+  eletter.classList.remove("hidden");
+  show.classList.add("hidden");
+});
+
+hide.addEventListener("click", () => {
+  eletter.classList.add("hidden");
+  show.classList.remove("hidden");
+});
+
 function resize()
 {
   WIDTH = window.innerWidth;

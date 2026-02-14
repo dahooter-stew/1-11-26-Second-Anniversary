@@ -32,6 +32,10 @@ html, body {
   font-style: normal;
 }
 
+.hidden {
+  display: none;
+}
+
 #fullscreen {
   position: absolute;
   width: 100vw;
@@ -72,6 +76,26 @@ html, body {
 
 #eletter > div {
   z-index: 1;
+}
+
+#heart {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-weight: bold;
+  font-size: 3rem;
+  cursor: pointer;
+  background: white;
+  border-radius: 2rem;
+}
+
+#exit {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-weight: light;
+  font-size: 3rem;
+  cursor: pointer;
 }
 
 .header {
@@ -117,6 +141,20 @@ html, body {
   flex-direction: row;
 }
 
+.side {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.side > p {
+  text-indent: 2rem;
+}
+
+.side > img {
+  height: 100%;
+}
+
 .left, .right {
   flex: 1;
 }
@@ -124,16 +162,6 @@ html, body {
 #selfie {
   width: 70%;
   height: 20rem;
-}
-
-.side {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.side > img {
-  height: 100%;
 }
 
 #selfie > .left {
@@ -163,4 +191,20 @@ html, body {
 
 #img-booth {
   width: 100%;
+}
+
+#babies {
+  width: 70%;
+  height: 20rem;
+}
+
+#babies > .left {
+  flex: 1;
+  flex-basis: 30%;
+}
+
+#babies > .right {
+  flex: 1;
+  flex-basis: 70%;
+  padding-left: 1rem;
 }
