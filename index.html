@@ -1,19 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Valentines Gift <3</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100..400&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <div id="container">
-    <canvas id="myCanvas"></canvas>
-    <div id="fullscreen">
 
+    <canvas id="myCanvas"></canvas>
+
+    <div id="fullscreen">
+      <div id="eletter">
+        <div class="header section">
+          <h1 class="sacramento-regular">Dear Maria,</h1>
+        </div>
+
+        <div class="section" id="pics">
+          <img src="./img/maria.JPG" class="rounded-corner" alt="maria">
+          <img src="./img/selfie.jpg" class="rounded-corner" alt="maabie">
+        </div>
+
+        <div class="section playwrite thin" id="starting-message">
+          <h1>Happy Valentines!</h1>
+          <p>
+            I cannot understate how much more colorful my life has
+            been ever since you entered it. I love every moment that 
+            i spend, have spent, and will spend with you.
+          </p>
+        </div>  
+
+        <div class="section two playwrite thin" id="selfie">
+          <div class="left side">
+            <img src="./img/mirror.jpg" class="rounded-corner" alt="">
+          </div>
+          <div class="right side">
+            <p>
+              Ever since I've been with you, I've felt so much more
+              comfortable. Not just with you or each other, but with
+              myself. For what might be the first time in my entire
+              life, I've let my guard down entirely around a person,
+              and I'm incredibly glad that person is you.
+
+            </p>
+          </div>
+        </div>
+
+        <div class="section two playwrite thin" id="booth">
+          <div class="left side">
+            <p>
+              I'm sorry I haven't been the best boyfriend lately. I really
+              really want to be the best for you. It really sucks I can't 
+              see you on a day to day basis anymore. I really wish we were
+              together lmao. I keep saying that but genuinely there's nothing
+              more than I want in the entire world.
+            </p>
+          </div>
+          <div class="right side">
+            <img src="./img/photobooth.jpg" alt="" id="img-booth" class="rounded-corner">
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
 
 	<script src="./script.js"></script>
 </body>
+
 </html>
